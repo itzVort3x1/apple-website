@@ -18,8 +18,8 @@ const Hero = () => {
   };
 
   useGSAP(() => {
-    gsap.to("#hero", { opacity: 1, duration: 2, delay: 2 });
-    gsap.to("#cta", { opacity: 1, y: -50, duration: 2, delay: 2 });
+    gsap.to("#hero", { opacity: 1, duration: 1.5, delay: 1 });
+    gsap.to("#cta", { opacity: 1, y: -50, duration: 1.5, delay: 1 });
   }, []);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const Hero = () => {
         <a href="#highlights" className="btn">
           Buy
         </a>
-        <p className="font-normal text-xl">From $199/month 0r $999</p>
+        <p className="font-normal text-xl">From $199/month or $999</p>
       </div>
     </section>
   );
