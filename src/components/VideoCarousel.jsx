@@ -57,29 +57,36 @@ const VideoCarousel = () => {
   useEffect(() => {
     let currentProgress = 0;
     let span = videoSpanRef.current;
+
     if (span[videoId]) {
-      // animate the progress of the video
+      // animation to move the indicator
       let anim = gsap.to(span[videoId], {
         onUpdate: () => {
+          // get the progress of the video
           const progress = Math.ceil(anim.progress() * 100);
 
           if (progress != currentProgress) {
             currentProgress = progress;
+
+            // set the width of the progress bar
             gsap.to(videoDivRef.current[videoId], {
               width:
                 window.innerWidth < 760
-                  ? "10vw"
+                  ? "10vw" // mobile
                   : window.innerWidth < 1200
-                  ? "10vw"
-                  : "4vw",
+                  ? "10vw" // tablet
+                  : "4vw", // laptop
             });
 
+            // set the background color of the progress bar
             gsap.to(span[videoId], {
               width: `${currentProgress}%`,
               backgroundColor: "white",
             });
           }
         },
+
+        // when the video is ended, replace the progress bar with the indicator and change the background color
         onComplete: () => {
           if (isPlaying) {
             gsap.to(videoDivRef.current[videoId], {
@@ -92,10 +99,11 @@ const VideoCarousel = () => {
         },
       });
 
-      if (videoId === 0) {
+      if (videoId == 0) {
         anim.restart();
       }
 
+      // update the progress bar
       const animUpdate = () => {
         anim.progress(
           videoRef.current[videoId].currentTime /
@@ -104,9 +112,11 @@ const VideoCarousel = () => {
       };
 
       if (isPlaying) {
+        // ticker to update the progress bar
         gsap.ticker.add(animUpdate);
       } else {
-        gsap.ticket.remove(animUpdate);
+        // remove the ticker when the video is paused (progress bar is stopped)
+        gsap.ticker.remove(animUpdate);
       }
     }
   }, [videoId, startPlay]);
